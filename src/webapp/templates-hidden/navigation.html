@@ -1,0 +1,17 @@
+<section class="navigation">
+    <head_merge>
+        <link rel="stylesheet" href="/static/css/navigation.css" />
+    </head_merge>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <lift:test_cond.loggedin>
+            <li class="lift:UserSnippet.myProfileLink"><a href="">Profile</a></li>
+        </lift:test_cond.loggedin>
+        <lift:test_cond.loggedin>
+            <li><a href="/logout">Logout</a></li>
+        </lift:test_cond.loggedin>
+        <lift:test_cond.loggedout>
+            <li><a href="/login">Login</a></li>
+        </lift:test_cond.loggedout>
+    </ul>
+</section>

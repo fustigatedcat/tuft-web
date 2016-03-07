@@ -1,0 +1,22 @@
+.navigation {
+    float: right;
+    padding: 1em 0;
+}
+
+.navigation ul {
+    list-style: none;
+    margin: 0;
+}
+
+.navigation ul li {
+    display: inline;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}

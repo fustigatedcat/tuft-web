@@ -1,0 +1,22 @@
+<html ng-app="tuft">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/css/global.css" />
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
+        <script type="text/javascript" src="/static/js/tuft.js"></script>
+        <script type="text/javascript" src="/static/js/tuft-services.js"></script>
+        <script type="text/javascript" src="/static/js/tuft-directives.js"></script>
+    </head>
+    <body>
+        <header>
+            <section class="header-inner">
+                <lift:embed what="navigation"></lift:embed>
+                <div style="clear: both"></div>
+            </section>
+        </header>
+        <section class="body-inner">
+            <lift:bind name="body"></lift:bind>
+        </section>
+    </body>
+</html>

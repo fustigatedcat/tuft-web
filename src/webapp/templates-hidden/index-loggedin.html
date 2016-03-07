@@ -1,0 +1,8 @@
+<section ng-controller="MainScreenController">
+    <tuft-list tufts="tufts" selected-tuft="selectedTuft" edit-tuft="editTuft(tuft)"></tuft-list>
+    <section class="tuft-display">
+        <strand-post></strand-post>
+        <tuft-display selected-tuft="selectedTuft"></tuft-display>
+    </section>
+    <tuft-edit tuft-id="editingTuft.id" done-editing="doneEditing()"></tuft-edit>
+</section>

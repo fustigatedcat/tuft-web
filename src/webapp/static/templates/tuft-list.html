@@ -1,0 +1,17 @@
+<section class="tuft-list">
+    <article>
+        <span class="selectable" ng-click="createTuft()">+New Tuft+</span>
+    </article>
+    <article>
+        <span class="selectable" ng-click="selectTuft({id: 0, name: 'Posted'});">Posted</span>
+    </article>
+    <article ng-repeat="tuft in tufts">
+        <article style="width: 50%; float: left;" >
+            <span class="selectable" ng-click="selectTuft(tuft);">{{tuft.name}}</span>
+        </article>
+        <article style="width: 20%; float: left;" >
+            <span class="selectable" ng-click="editTuft({tuft: tuft});">e</span>
+        </article>
+        <div style="clear: both;"></div>
+    </article>
+</section>
