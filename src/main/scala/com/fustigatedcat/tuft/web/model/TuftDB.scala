@@ -1,4 +1,4 @@
-package com.fustigatedcat.tuft.ui.model
+package com.fustigatedcat.tuft.web.model
 
 import org.squeryl.Schema
 

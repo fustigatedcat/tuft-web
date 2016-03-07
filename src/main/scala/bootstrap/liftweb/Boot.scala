@@ -2,7 +2,7 @@ package bootstrap.liftweb
 
 import java.util.TimeZone
 
-import com.fustigatedcat.tuft.ui.model.SquerylMode._
+import com.fustigatedcat.tuft.web.model.SquerylMode._
 import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.liftweb.common._
 import net.liftweb.http._
@@ -70,6 +70,10 @@ class Boot {
     Menu("Home") / "index"
   }
 
+  def createLoginPage = {
+    Menu("Login") / "login"
+  }
+
   def createStaticPages = {
     Menu("Static") / "static" / **
   }
@@ -77,6 +81,7 @@ class Boot {
   def setupSiteMap : Boot = {
     LiftRules.setSiteMapFunc(() => SiteMap(
       createIndexPage,
+      createLoginPage,
       createStaticPages
     ))
     this
@@ -94,7 +99,7 @@ class Boot {
 
   def setupMisc : Boot = {
     // where to search snippet
-    LiftRules.addToPackages("com.fustigatedcat.tuft.ui")
+    LiftRules.addToPackages("com.fustigatedcat.tuft.web")
 
     /*
      * Show the spinny image when an Ajax call starts
