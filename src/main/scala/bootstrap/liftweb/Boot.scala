@@ -3,8 +3,6 @@ package bootstrap.liftweb
 import java.util.TimeZone
 
 import com.fustigatedcat.tuft.ui.model.SquerylMode._
-import com.fustigatedcat.tuft.ui.model.{LoggedInUserId, LoggedInUser, User}
-import com.fustigatedcat.tuft.ui.rest.{UserService, StrandService, TuftService}
 import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.liftweb.common._
 import net.liftweb.http._
@@ -25,7 +23,7 @@ import scala.language.postfixOps
  */
 class Boot {
 
-  val services = List(TuftService, StrandService, UserService)
+  val services = List()
 
   val logger = LoggerFactory.getLogger(classOf[Boot])
 
@@ -72,27 +70,6 @@ class Boot {
     Menu("Home") / "index"
   }
 
-  def createProfilePage = {
-    Menu.param[User](
-      "Profile",
-      "Profile",
-      userId => inTransaction { User.getById(userId toLong) },
-      _.id.toString
-    ) / "profile" >> If(() => S.loggedIn_?, () => RedirectResponse("/"))
-  }
-
-  def createLoginPage = {
-    Menu("Login") / "login" >> If(() => !S.loggedIn_?, () => RedirectResponse("/"))
-  }
-
-  def createLogoutPage = {
-    Menu("Logout") / "logout" >> If(() => S.loggedIn_?, () => RedirectResponse("/"))
-  }
-
-  def createRegisterPage = {
-    Menu("Register") / "register" >> If(() => !S.loggedIn_?, () => RedirectResponse("/"))
-  }
-
   def createStaticPages = {
     Menu("Static") / "static" / **
   }
@@ -100,10 +77,6 @@ class Boot {
   def setupSiteMap : Boot = {
     LiftRules.setSiteMapFunc(() => SiteMap(
       createIndexPage,
-      createProfilePage,
-      createLoginPage,
-      createLogoutPage,
-      createRegisterPage,
       createStaticPages
     ))
     this
@@ -111,7 +84,7 @@ class Boot {
 
   def createServices = {
     val isUserLoggedIn : PartialFunction[Req, Unit] = {
-      case _ if LoggedInUser.is.isDefined =>
+      case _ /* if LoggedInUser.is.isDefined */ =>
     }
 
     services.foreach(service => LiftRules.dispatch.append(isUserLoggedIn guard service))
@@ -137,11 +110,12 @@ class Boot {
 
     LiftRules.early.append(makeUtf8)
 
-    LiftRules.loggedInTest = Full(() => LoggedInUserId.is.isDefined)
+//    LiftRules.loggedInTest = Full(() => LoggedInUserId.is.isDefined)
+    LiftRules.loggedInTest = Full(() => false)
 
-    LiftRules.earlyInStateful.append({
+/*    LiftRules.earlyInStateful.append({
       case Full(r) => LoggedInUser(User.getByOptionalId(LoggedInUserId.get))
-    })
+    }) */
 
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 
