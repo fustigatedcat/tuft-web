@@ -3,6 +3,8 @@ package bootstrap.liftweb
 import java.util.TimeZone
 
 import com.fustigatedcat.tuft.web.model.SquerylMode._
+import com.fustigatedcat.tuft.web.model.User
+import com.fustigatedcat.tuft.web.snippet.{LoggedInUser, LoggedInUserId}
 import com.mchange.v2.c3p0.ComboPooledDataSource
 import net.liftweb.common._
 import net.liftweb.http._
@@ -115,12 +117,11 @@ class Boot {
 
     LiftRules.early.append(makeUtf8)
 
-//    LiftRules.loggedInTest = Full(() => LoggedInUserId.is.isDefined)
-    LiftRules.loggedInTest = Full(() => false)
+    LiftRules.loggedInTest = Full(() => LoggedInUserId.is.isDefined)
 
-/*    LiftRules.earlyInStateful.append({
-      case Full(r) => LoggedInUser(User.getByOptionalId(LoggedInUserId.get))
-    }) */
+    LiftRules.earlyInStateful.append {
+      case Full(r) => LoggedInUser(LoggedInUserId.is.map(User.getById).getOrElse(None))
+    }
 
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 

@@ -1,4 +1,4 @@
-<section class="navbar navbar-default">
+<section class="navbar navbar-default" ng-controller="NavigationController">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Tuft</a>
         <ul class="nav navbar-nav navbar-right">
@@ -11,7 +11,9 @@
                         <button type="submit" class="btn btn-default"><div class="glyphicon glyphicon-search"></div></button>
                     </form>
                 </li>
-                <li><a href="/profile">Kitty MeowMeow</a></li>
+                <li class="lift:Navigation.user">
+                    <a uib-popover-template="'/static/templates/navUserPopover.html'" popover-placement="bottom-right" href="#"><span id="full_name">NAME</span></a>
+                </li>
             </lift:test_cond.loggedin>
             <lift:test_cond.loggedout>
                 <li><a href="/signup">Sign Up</a></li>

@@ -6,4 +6,6 @@ import SquerylMode._
 
 object TuftDB extends Schema {
 
+  val user = table[User]
+
 }

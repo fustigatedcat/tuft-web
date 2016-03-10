@@ -1,28 +1,9 @@
 angular.
-    module("tuft", ["tuft-services", "tuft-directives"]).
+    module("tuft", ["ngAnimate", "ui.bootstrap"]).
     controller(
-        "MainScreenController",
+        "NavigationController",
         [
-            "$scope", "TuftService",
-            function($scope, TuftService) {
-                $scope.tufts = [];
-                $scope.selectedTuft = {};
-                $scope.editingTuft = {};
-                TuftService.getTufts(function(tufts) {
-                    $scope.tufts = tufts;
-                });
-                $scope.editTuft = function(tuft) {
-                    $scope.editingTuft = tuft;
-                };
-            }
-        ]
-    ).
-    controller(
-        "ProfileScreenController",
-        [
-            "$scope", "ProfileService",
-            function($scope, ProfileService) {
-
-            }
+            "$scope",
+            function($scope) { }
         ]
     );
