@@ -73,7 +73,7 @@ class Boot {
   }
 
   def createLoginPage = {
-    Menu("Login") / "login"
+    Menu("Login") / "login" >> If(() => LoggedInUserId.is.isEmpty, () => RedirectResponse("/"))
   }
 
   def createStaticPages = {
