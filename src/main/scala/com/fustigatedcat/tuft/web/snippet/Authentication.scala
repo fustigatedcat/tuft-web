@@ -29,4 +29,11 @@ object Authentication {
     "*" #> NodeSeq.Empty
   }
 
+  def logout : CssSel = {
+    LoggedInUser(None)
+    LoggedInUserId(None)
+    S.session.foreach(_.destroySession())
+    S.redirectTo("/")
+  }
+
 }

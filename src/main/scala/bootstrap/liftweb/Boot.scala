@@ -76,6 +76,10 @@ class Boot {
     Menu("Login") / "login" >> If(() => LoggedInUserId.is.isEmpty, () => RedirectResponse("/"))
   }
 
+  def createLogoutPage = {
+    Menu("Logout") / "logout" >> If(() => LoggedInUserId.is.isDefined, () => RedirectResponse("/"))
+  }
+
   def createStaticPages = {
     Menu("Static") / "static" / **
   }
@@ -84,6 +88,7 @@ class Boot {
     LiftRules.setSiteMapFunc(() => SiteMap(
       createIndexPage,
       createLoginPage,
+      createLogoutPage,
       createStaticPages
     ))
     this
