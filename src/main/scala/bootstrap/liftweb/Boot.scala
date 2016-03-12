@@ -80,6 +80,10 @@ class Boot {
     Menu("Logout") / "logout" >> If(() => LoggedInUserId.is.isDefined, () => RedirectResponse("/"))
   }
 
+  def createSearchPage = {
+    Menu("Search") / "search" >> If(() => LoggedInUserId.is.isDefined, () => RedirectResponse("/login"))
+  }
+
   def createStaticPages = {
     Menu("Static") / "static" / **
   }
@@ -89,6 +93,7 @@ class Boot {
       createIndexPage,
       createLoginPage,
       createLogoutPage,
+      createSearchPage,
       createStaticPages
     ))
     this
