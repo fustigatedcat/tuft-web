@@ -14,8 +14,9 @@ object Search {
     case Full(searchValue) => {
       if(searchValue.startsWith("//")) {
         ".search-result" #> User.searchForUser(searchValue.split(" ")(0).drop(2)).map(user => {
-          "a [href]" #> s"/users/${user.id}" &
-            ".full-name" #> s"${user.firstName} ${user.lastName}"
+          "a [href]" #> s"/profiles/${user.id}" &
+            ".first-name" #> user.firstName &
+            ".last-name" #> user.lastName
         }) &
           ".search-error" #> NodeSeq.Empty
       } else {
