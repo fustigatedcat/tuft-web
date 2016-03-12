@@ -31,6 +31,10 @@ object User {
 
   def getById(id : Long) : Option[User] = TuftDB.user.where(u => u.id === id).headOption
 
+  def searchForUser(username : String) : List[User] = {
+    TuftDB.user.where(u => u.username like (username + "%")).toList
+  }
+
 }
 
 case class User(@Column("user_id") id : Long,
