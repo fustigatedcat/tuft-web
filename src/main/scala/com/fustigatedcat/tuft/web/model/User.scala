@@ -44,7 +44,7 @@ case class User(@Column("user_id") id : Long,
            @Column("password") password : String,
            @Column("salt") salt : String,
            @Column("last_login") lastLogin : Timestamp,
-           @Column("avatar") avatar : String) extends KeyedEntity[Long] {
+           @Column("avatar") avatar : Option[String]) extends KeyedEntity[Long] {
 
   lazy val connectionRequestsFromMe = TuftDB.userRequestsSent.left(this)
 
