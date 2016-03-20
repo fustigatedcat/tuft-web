@@ -13,27 +13,30 @@ import scala.xml.NodeSeq
 
 class Profile(user : User) {
 
-  def this() = this(LoggedInUser.is.get)
-
   def _requestConnection(input : String) : JsCmd = parseOpt(input) match {
-    case Some(JArray(List(JString(success),JString(failure)))) => {
-      if(UserConnection.connect(LoggedInUser.is.get, user)) {
-        JE.Call("success", JBool(true)).cmd
-      } else {
-        JE.Call("failure", JBool(false)).cmd
-      }
+    case Some(JString(callback)) => {
+      JE.Call(callback, JBool(UserConnection.connect(LoggedInUser.is.get, user))).cmd
     }
     case _ => {
-      JsCmds.Alert("Expected only one argument")
+      JsCmds.Alert("Expected one argument")
     }
   }
 
   def requestConnection : CssSel = LoggedInUserId.is match {
-    case Some(id) if user.id == id => {
-      val GUIDJsExp(_, func) = SHtml.ajaxCall(Stringify(JsArray(JsVar("success"),JsVar("failure"))), _requestConnection)
-      "*" #> JsCmds.Script(JsCmds.Function("requestConnection", List("success", "failure"), func.cmd))
+    case Some(id) if user.id != id => {
+      val GUIDJsExp(_, func) = SHtml.ajaxCall(Stringify(JsVar("callback")), _requestConnection)
+      "*" #> JsCmds.Script(JsCmds.Function("requestConnection", List("callback"), func.cmd))
     }
     case _ => "*" #> NodeSeq.Empty
+  }
+
+  def connectionManagement : CssSel = LoggedInUser.is match {
+    case Some(us) if us.id != user.id => UserConnection.getConnection(us, user) match {
+      case Some(uc) if uc.accepted || uc.requestor_user_id == us.id => "* [data-ng-init]" #> "canConnect = false; canAccept = false;"
+      case Some(uc) if !uc.accepted && uc.requestee_user_id == us.id => "input [value]" #> "Accept Request" & "* [data-ng-init]" #> "canConnect = false; canAccept = true;"
+      case _ => "* [data-ng-init]" #> "canConnect = true; canAccept = false;"
+    }
+    case _ => "* [data-ng-init]" #> "canConnect = false; canAccept = false;"
   }
 
   def populate : CssSel = {

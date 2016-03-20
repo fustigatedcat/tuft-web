@@ -5,6 +5,10 @@ import java.sql.Timestamp
 import org.squeryl.KeyedEntity
 import org.squeryl.annotations.Column
 
+import SquerylMode._
+
+import scala.language.postfixOps
+
 object UserConnection {
 
   def connect(us : User, them : User) : Boolean = {
@@ -19,6 +23,16 @@ object UserConnection {
       )
     )
     true
+  }
+
+  def getConnection(us : User, them : User) : Option[UserConnection] = {
+    from(TuftDB.userConnection)(uc => where(
+      (uc.requestor_user_id === us.id and uc.requestee_user_id === them.id) or
+        (uc.requestee_user_id === us.id and uc.requestor_user_id === them.id)
+    )
+      select uc
+      orderBy(uc.requested asc)
+    ).headOption
   }
 
 }

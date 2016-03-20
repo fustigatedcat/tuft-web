@@ -2,7 +2,7 @@ package com.fustigatedcat.tuft.web.model
 
 import java.security.MessageDigest
 import java.sql.Timestamp
-import java.util.Base64
+import java.util.{Calendar, Base64}
 
 import org.squeryl.KeyedEntity
 import org.squeryl.annotations.Column
