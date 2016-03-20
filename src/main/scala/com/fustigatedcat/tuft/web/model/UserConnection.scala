@@ -35,6 +35,13 @@ object UserConnection {
     ).headOption
   }
 
+  def acceptConnectionRequest(us : User, them : User) : Int = {
+    TuftDB.userConnection.update(uc =>
+      where(uc.requestor_user_id === them.id and uc.requestee_user_id === us.id and uc.accepted === false)
+        set(uc.accepted := true, uc.accepted_date := Some(new Timestamp(System.currentTimeMillis())))
+    )
+  }
+
 }
 
 case class UserConnection(@Column("request_id") id : Long,
