@@ -2,9 +2,8 @@ package com.fustigatedcat.tuft.web.model
 
 import java.security.MessageDigest
 import java.sql.Timestamp
-import java.util.Base64
+import java.util.{Calendar, Base64}
 
-import net.liftweb.http.{SessionVar, RequestVar}
 import org.squeryl.KeyedEntity
 import org.squeryl.annotations.Column
 import SquerylMode._
@@ -31,6 +30,10 @@ object User {
 
   def getById(id : Long) : Option[User] = TuftDB.user.where(u => u.id === id).headOption
 
+  def searchForUser(username : String) : List[User] = {
+    TuftDB.user.where(u => u.username like (username + "%")).toList
+  }
+
 }
 
 case class User(@Column("user_id") id : Long,
@@ -41,5 +44,10 @@ case class User(@Column("user_id") id : Long,
            @Column("password") password : String,
            @Column("salt") salt : String,
            @Column("last_login") lastLogin : Timestamp,
-           @Column("avatar") avatar : String) extends KeyedEntity[Long] {
+           @Column("avatar") avatar : Option[String]) extends KeyedEntity[Long] {
+
+  lazy val connectionRequestsFromMe = TuftDB.userRequestsSent.left(this)
+
+  lazy val connectionRequestsToMe = TuftDB.userRequestsReceived.left(this)
+
 }

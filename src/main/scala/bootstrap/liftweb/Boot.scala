@@ -80,6 +80,19 @@ class Boot {
     Menu("Logout") / "logout" >> If(() => LoggedInUserId.is.isDefined, () => RedirectResponse("/"))
   }
 
+  def createSearchPage = {
+    Menu("Search") / "search" >> If(() => LoggedInUserId.is.isDefined, () => RedirectResponse("/login"))
+  }
+
+  def createProfilesPage = {
+    Menu.param[User](
+      "Profiles",
+      "profiles",
+      id => inTransaction { User.getById(id toLong) },
+      user => user.id.toString
+    ) / "profiles"
+  }
+
   def createStaticPages = {
     Menu("Static") / "static" / **
   }
@@ -89,6 +102,8 @@ class Boot {
       createIndexPage,
       createLoginPage,
       createLogoutPage,
+      createSearchPage,
+      createProfilesPage,
       createStaticPages
     ))
     this
